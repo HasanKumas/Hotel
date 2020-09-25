@@ -15,26 +15,11 @@ namespace Hotel.Data
         //Add a new Reservation
         public bool AddReservation(Reservation reservation)
         {
-            //var newReservation = _context.Reservation.Include(b => b.Guest).First();
-            //Get Guest
-            var guest = _context.Guest.Find(reservation.Guest.GuestId);
-            reservation.Guest = guest;
-
-            //Get Room
-            var rooms = _context.Room.ToList().Where(r => reservation.RoomReservations.Any(rr => rr.Room.RoomId == r.RoomId));
-            reservation.RoomReservations.Clear();
-            foreach (var room in rooms)
-            {
-                reservation.RoomReservations.Add(new RoomReservation
-                {
-                    Room = room,
-                    Reservation = reservation
-                });
-            }
-
+            _context.Attach(reservation.Guest);
             _context.Reservation.Add(reservation);
             return _context.SaveChanges() == 1;
         }
+
         //GET All Reservations list
         public async Task<IList<Reservation>> AllReservations()
         {
