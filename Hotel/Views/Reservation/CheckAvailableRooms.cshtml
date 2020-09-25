@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Hotel.Models.RoomDetailViewModel>
+
+@{
+    ViewData["Title"] = "Select Room";
+}
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+    <button type="button" class="btn btn-primary" id="buttonS">Show</button>
+</p>
+<table id="roomTable" class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomSize)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EntranceAvailableDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomSize)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EntranceAvailableDate)
+                </td>
+                <td>
+                    
+                    <input type="checkbox" id="cbox" name="room" value="@item.RoomId">
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<form>
+    <a asp-action="Complete" asp-controller="reservation">Complete reservation</a>
+    <input type="text" id="inputSelectedRooms" />
+</form>
