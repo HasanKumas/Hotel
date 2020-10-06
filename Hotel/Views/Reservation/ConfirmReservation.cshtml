@@ -1,0 +1,98 @@
+﻿@model Hotel.Models.ReservationDetailViewModel
+
+@{
+    ViewData["Title"] = "Confirm Reservation";
+}
+<h4>Make A Reservation</h4>
+<h5>Step 3: Check guest details if exist and update if necessary. 
+    If guest does not exist fill in details to add a new guest. Confirm reservation details.</h5>
+
+<h5 style="color:red">@ViewBag.Message</h5>
+
+<form asp-action="Complete">
+
+    <input type="hidden" asp-for="ReservationId" />
+    <input type="hidden" name="CheckInDate" class="form-control" value="@Model.CheckInDate" />
+    <input type="hidden" name="CheckOutDate" class="form-control" value="@Model.CheckOutDate" />
+    <input type="hidden" asp-for="NumberOfGuests" class="form-control" value="@Model.NumberOfGuests" />
+    <input type="hidden" asp-for="TotalPrice" class="form-control" value="@Model.TotalPrice" />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Guest.LastName" class="control-label"></label>
+                <input asp-for="Guest.LastName" class="form-control" required/>
+                <input type="hidden" asp-for="Guest.GuestId" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Guest.FirstName" class="control-label"></label>
+                <input asp-for="Guest.FirstName" class="form-control" required/>
+            </div>
+            <div class="form-group">
+                <label asp-for="Guest.Address" class="control-label"></label>
+                <input asp-for="Guest.Address" class="form-control" />
+                <span asp-validation-for="Guest.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Guest.PostCode" class="control-label"></label>
+                <input asp-for="Guest.PostCode" class="form-control" />
+                <span asp-validation-for="Guest.PostCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Guest.Town" class="control-label"></label>
+                <input asp-for="Guest.Town" class="form-control" />
+                <span asp-validation-for="Guest.Town" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Guest.Country" class="control-label"></label>
+                <input asp-for="Guest.Country" class="form-control" />
+                <span asp-validation-for="Guest.Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Guest.PhoneNumber" class="control-label"></label>
+                <input asp-for="Guest.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Guest.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Guest.Email" class="control-label"></label>
+                <input asp-for="Guest.Email" class="form-control" required/>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label name="CheckInDate" class="control-label">Checkin Date</label>
+                <input name="CheckInDate" value="@Model.CheckInDate.ToString("dd/MM/yyyy")" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label name="CheckOutDate" class="control-label">Checkout Date</label>
+                <input name="CheckOutDate" value="@Model.CheckOutDate.ToString("dd/MM/yyyy")" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfGuests" class="control-label"></label>
+                <input asp-for="NumberOfGuests" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalPrice" class="control-label"></label>
+                <input asp-for="TotalPrice" value="@Model.TotalPrice" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="Rooms[0].RoomNumber" class="control-label"></label>
+                @for (int index = 0; index < Model.Rooms.Count; index++)
+                {
+                    <input name="Rooms[@index].RoomNumber" value="@Model.Rooms[index].RoomNumber" class="form-control" disabled />
+                    <input type="hidden" name="Rooms[@index].RoomId" value="@Model.Rooms[index].RoomId" />
+                }
+
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsPaid" /> @Html.DisplayNameFor(model => model.IsPaid)
+                </label>
+            </div>
+            <div class="form-group">
+                <a asp-action="Index">Back to List</a>
+                <input type="submit" value="Confirm Reservation" class="btn btn-primary" />
+            </div>
+        </div>
+        </div>
+</form>

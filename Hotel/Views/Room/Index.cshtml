@@ -1,20 +1,19 @@
 ﻿@model IEnumerable<Hotel.Models.RoomDetailViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Room List";
 }
 
-<h1>Index</h1>
+<h4>Room List</h4>
 
 <p>
-    <a asp-action="Create">Create New</a>
-    <button type="button" class="btn btn-primary" id="buttonS">Show</button>
+    <a asp-action="Create">Add New Room</a>
 </p>
 <table id="roomTable" class="table table-striped">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RoomId)
+                @Html.DisplayNameFor(model => model.RoomNumber)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.RoomType)
@@ -32,33 +31,42 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomSize)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EntranceAvailableDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.RoomId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RoomId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RoomId"><i class="fa fa-trash" style="color:red;"></i></a> |
-                <input type="checkbox" id="cbox" name="room" value="@item.RoomId">
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomSize)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EntranceAvailableDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.RoomId"><i class="fa fa-edit" title="Edit" style="color:deepskyblue;"></i></a> |
+                    <a asp-action="Details" asp-route-id="@item.RoomId"><i class="fa fa-info-circle" title="Details" style="color:darkslategrey;"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.RoomId"><i class="fa fa-trash" title="Delete" style="color:red;"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
-<form>
-    <input type="text" id="inputSelectedRooms"/>
-</form>
+
+@section scripts {
+    <script>
+    $(document).ready(() => {
+        if (@ViewBag.Succes == 1) {
+            $("#modalS").modal('show');
+        }
+    });
+    </script>
+
+}
+@Html.Partial("_Confirmation", new { bodyMessage = $"{@ViewBag.Message}"})

@@ -2,21 +2,27 @@
 using Microsoft.AspNetCore.Mvc;
 using Hotel.Services.Interfaces;
 using Hotel.Models;
+using System;
+using System.Linq;
+using Hotel.Data.Models;
 
 namespace Hotel
 {
     public class RoomController : Controller
     {
         private readonly IRoomService _roomService;
+        private readonly IMaintenanceService _maintenanceService;
 
-        public RoomController(IRoomService roomService)
+        public RoomController(IRoomService roomService, IMaintenanceService maintenanceService)
         {
             _roomService = roomService;
+            _maintenanceService = maintenanceService;
         }
-
+        
         // GET: Room
         public async Task<IActionResult> Index()
         {
+            ViewBag.Succes = 0;
             return View(await _roomService.AllRooms());
         }
 
@@ -44,16 +50,16 @@ namespace Hotel
         }
 
         // POST: Room/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("RoomId,RoomNumber,RoomType,RoomSize,Price,EntranceAvailableDate")] RoomDetailViewModel room)
+        public async Task<IActionResult> Create([Bind("RoomId,RoomNumber,RoomType,RoomSize,Price,EntranceAvailableDate")] RoomDetailViewModel room)
         {
             if (ModelState.IsValid)
             {
                 _roomService.AddRoom(room);
-                return RedirectToAction(nameof(Index));
+                ViewBag.Message = $"The room number {room.RoomNumber} has created succesfully!";
+                ViewBag.Succes = 1;
+                return View(nameof(Index), await _roomService.AllRooms());
             }
             return View(room);
         }
@@ -75,11 +81,9 @@ namespace Hotel
         }
 
         //// POST: Room/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("RoomId,RoomNumber,RoomType,RoomSize,Price,EntranceAvailableDate")] RoomDetailViewModel room)
+        public async Task<IActionResult> Edit(int id, [Bind("RoomId,RoomNumber,RoomType,RoomSize,Price,EntranceAvailableDate")] RoomDetailViewModel room)
         {
             if (id != room.RoomId)
             {
@@ -93,7 +97,9 @@ namespace Hotel
                 {
                     return NotFound();
                 }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Message = $"The room number {room.RoomNumber} has updated succesfully!";
+                ViewBag.Succes = 1;
+                return View(nameof(Index), await _roomService.AllRooms());
             }
             return View(room);
         }
@@ -118,10 +124,12 @@ namespace Hotel
         //// POST: Room/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            _roomService.DeleteRoom(id); 
-            return RedirectToAction(nameof(Index));
+            _roomService.DeleteRoom(id);
+            ViewBag.Message = $"The room with id:{id} has deleted succesfully!";
+            ViewBag.Succes = 1;
+            return View(nameof(Index), await _roomService.AllRooms());
         }
     }
 }

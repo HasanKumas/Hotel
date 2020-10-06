@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
+using Hotel.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hotel.Data
@@ -13,11 +11,11 @@ namespace Hotel.Data
         {
         }
 
-        public DbSet<Guest> Guest { get; set; }
-        public DbSet<RoomReservation> RoomReservation { get; set; }
-        public DbSet<Reservation> Reservation { get; set; }
-        public DbSet<Room> Room { get; set; }
-        public DbSet<Maintenance> Maintenance { get; set; }
+        public DbSet<Guest> Guests { get; set; }
+        public DbSet<RoomReservation> RoomReservations { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<Maintenance> Maintenances { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -25,7 +23,16 @@ namespace Hotel.Data
                 .Property(c => c.RoomType)
                 .HasConversion<string>();
             modelBuilder.Entity<Room>()
+                .HasIndex(rn => rn.RoomNumber)
+                .IsUnique();
+            modelBuilder.Entity<Room>()
                 .Property(c => c.RoomSize)
+                .HasConversion<string>();
+            modelBuilder.Entity<Room>()
+                .Property(c => c.Status)
+                .HasConversion<string>();
+            modelBuilder.Entity<Reservation>()
+                .Property(r => r.Status)
                 .HasConversion<string>();
             modelBuilder.Entity<RoomReservation>()
                 .HasKey(bc => new { bc.RoomId, bc.ReservationId });

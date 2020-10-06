@@ -2,7 +2,7 @@
 
 namespace Data.Migrations
 {
-    public partial class datesformatupdated : Migration
+    public partial class maintenanceUpdated : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

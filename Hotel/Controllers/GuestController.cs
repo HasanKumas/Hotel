@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Hotel.Services.Interfaces;
 using GuestViewModel = Hotel.Models.GuestViewModel;
+using System.Collections.Generic;
 
 namespace Hotel
 {
@@ -17,6 +18,7 @@ namespace Hotel
         // GET: Guest
         public async Task<IActionResult> Index()
         {
+            ViewBag.Succes = 0;
             return View(await _guestService.AllGuests());
         }
 
@@ -44,15 +46,15 @@ namespace Hotel
         }
 
         // POST: Guest/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public IActionResult Create(GuestViewModel guest)
+        public async Task<IActionResult> Create(GuestViewModel guest)
         {
             if (ModelState.IsValid)
             {
                 _guestService.AddGuest(guest);
-                return RedirectToAction(nameof(Index));
+                ViewBag.Message = $"The guest {guest.LastName} has registered succesfully!";
+                ViewBag.Succes = 1;
+                return View(nameof(Index), await _guestService.AllGuests());
             }
             return View(guest);
         }
@@ -74,10 +76,8 @@ namespace Hotel
         }
 
         //// POST: Guest/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public IActionResult Edit(int id, GuestViewModel guest)
+        public async Task<IActionResult> Edit(int id, GuestViewModel guest)
         {
             if (id != guest.GuestId)
             {
@@ -91,7 +91,9 @@ namespace Hotel
                 {
                     return NotFound();
                 }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Message = $"The guest  {guest.LastName} has updated succesfully!";
+                ViewBag.Succes = 1;
+                return View(nameof(Index), await _guestService.AllGuests());
             }
             return View(guest);
         }
@@ -116,10 +118,12 @@ namespace Hotel
         //// POST: Guest/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             _guestService.DeleteGuest(id);
-            return RedirectToAction(nameof(Index));
+            ViewBag.Message = $"The guest with number {id} has deleted succesfully!";
+            ViewBag.Succes = 1;
+            return View(nameof(Index), await _guestService.AllGuests());
         }
     }
 }

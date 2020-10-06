@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Hotel.Data;
+using Hotel.Data.Models;
 using Hotel.Models;
 using Hotel.Services.Interfaces;
 using System;
@@ -20,7 +21,7 @@ namespace Hotel.Services
             _mapper = mapper;
         }
         //Add a new guest
-        public bool AddGuest(GuestViewModel guest)
+        public int AddGuest(GuestViewModel guest)
         {
             return _guestsRepository.AddGuest(_mapper.Map<Guest>(guest));
         }
@@ -35,6 +36,11 @@ namespace Hotel.Services
         public async Task<GuestViewModel> GetGuest(int id)
         {
             var guest = await _guestsRepository.GetGuest(id);
+            return _mapper.Map<GuestViewModel>(guest);
+        }
+        public async Task<GuestViewModel> GetGuestByName(string lastName)
+        {
+            var guest = await _guestsRepository.GetGuestByName(lastName);
             return _mapper.Map<GuestViewModel>(guest);
         }
         //POST Update Guest

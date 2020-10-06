@@ -1,26 +1,25 @@
 ﻿@model Hotel.Models.ReservationDetailViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Make Reservation";
 }
-
-<h1>Create</h1>
-
-<h4>Reservation</h4>
+<div >
+    <h4>Make A Reservation</h4>
+</div>
+<h5>Step 1: Specify the period and number of guests for available rooms</h5>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-        @*<form asp-action="CheckAvailableRooms">*@
+<div class="row" id="">
+    <div class="card col-md-4" style="background-color:lightskyblue">
+        <form asp-action="CheckAvailableRooms">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="CheckInDate" class="control-label"></label>
-                <input asp-for="CheckInDate" class="form-control" />
+                <input asp-for="CheckInDate" asp-format="{0:dd/MM/yyyy}" class="form-control" />
                 <span asp-validation-for="CheckInDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CheckOutDate" class="control-label"></label>
-                <input asp-for="CheckOutDate" class="form-control" />
+                <input asp-for="CheckOutDate" asp-format="{0:dd/MM/yyyy}" class="form-control" />
                 <span asp-validation-for="CheckOutDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -28,36 +27,19 @@
                 <input asp-for="NumberOfGuests" class="form-control" />
                 <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Rooms[0].RoomId" class="control-label"></label>
-                <input asp-for="Rooms[0].RoomId" class="form-control" />
-                <span asp-validation-for="Rooms[0].RoomId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Guest.GuestId" class="control-label"></label>
-                <input asp-for="Guest.GuestId" class="form-control" />
-                <span asp-validation-for="Guest.GuestId" class="text-danger"></span>
-            </div>
-            @*<div class="form-group">
-                <label asp-for="TotalPrice" class="control-label"></label>
-                <input asp-for="TotalPrice" class="form-control" />
-                <span asp-validation-for="TotalPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsPaid" /> @Html.DisplayNameFor(model => model.IsPaid)
-                </label>
-            </div>*@
-            <div class="form-group">
-                <input type="submit" value="Create/Check Availability" class="btn btn-primary" />
+            <div class="row">
+                <div class="col-md-6">
+                    <a asp-action="Index"><i class="fa fa-angle-double-left fa-3x" title="Back to List"></i></a>
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="submit" value="Check Availability" class="btn btn-success" />
+                </div>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

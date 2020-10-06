@@ -1,20 +1,16 @@
 ﻿@model Hotel.Models.ReservationDetailViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Reservation";
 }
 
-<h1>Edit</h1>
-
-<h4>Reservation</h4>
+<h4>Edit Reservation</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ReservationId" />
-            @*<input type="hidden" asp-for="Guest.GuestId" />*@
-            @*<input type="hidden" asp-for="Rooms[0].RoomId" />*@
             <div class="form-group">
                 <label asp-for="CheckInDate" class="control-label"></label>
                 <input asp-for="CheckInDate" class="form-control" />
@@ -39,6 +35,14 @@
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsPaid" /> @Html.DisplayNameFor(model => model.IsPaid)
                 </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" asp-items="Html.GetEnumSelectList<ReservationStatusViewModel>()"
+                        class="form-control">
+                    <option selected="selected" value="">Please select</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

@@ -1,4 +1,4 @@
-﻿namespace Hotel.Data
+﻿namespace Hotel.Data.Models
 {
     public enum RoomType
     {

@@ -15,5 +15,7 @@ namespace Hotel.Services.Interfaces
         Task<ReservationDetailViewModel> GetReservation(int id);
         bool EditReservation(ReservationDetailViewModel reservation);
         bool DeleteReservation(int id);
+        Task<IList<RoomDetailViewModel>> GetAvailableRooms(ReservationDetailViewModel reservation);
+        Task<IList<RoomDetailViewModel>> GetAlternateRooms(ReservationDetailViewModel currentReservation);
     }
 }

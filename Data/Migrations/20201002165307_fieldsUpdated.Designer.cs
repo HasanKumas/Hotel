@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    [Migration("20200924175120_guestmodelupdated")]
-    partial class guestmodelupdated
+    [Migration("20201002165307_fieldsUpdated")]
+    partial class fieldsUpdated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Hotel.Data.Guest", b =>
+            modelBuilder.Entity("Hotel.Data.Models.Guest", b =>
                 {
                     b.Property<int>("GuestId")
                         .ValueGeneratedOnAdd()
@@ -54,10 +54,10 @@ namespace Data.Migrations
 
                     b.HasKey("GuestId");
 
-                    b.ToTable("Guest");
+                    b.ToTable("Guests");
                 });
 
-            modelBuilder.Entity("Hotel.Data.Maintenance", b =>
+            modelBuilder.Entity("Hotel.Data.Models.Maintenance", b =>
                 {
                     b.Property<int>("MaintenanceId")
                         .ValueGeneratedOnAdd()
@@ -77,10 +77,10 @@ namespace Data.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Maintenance");
+                    b.ToTable("Maintenances");
                 });
 
-            modelBuilder.Entity("Hotel.Data.Reservation", b =>
+            modelBuilder.Entity("Hotel.Data.Models.Reservation", b =>
                 {
                     b.Property<int>("ReservationId")
                         .ValueGeneratedOnAdd()
@@ -102,6 +102,10 @@ namespace Data.Migrations
                     b.Property<int>("NumberOfGuests")
                         .HasColumnType("int");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
@@ -109,10 +113,10 @@ namespace Data.Migrations
 
                     b.HasIndex("GuestId");
 
-                    b.ToTable("Reservation");
+                    b.ToTable("Reservations");
                 });
 
-            modelBuilder.Entity("Hotel.Data.Room", b =>
+            modelBuilder.Entity("Hotel.Data.Models.Room", b =>
                 {
                     b.Property<int>("RoomId")
                         .ValueGeneratedOnAdd()
@@ -126,7 +130,7 @@ namespace Data.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("RoomNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RoomSize")
                         .IsRequired()
@@ -136,12 +140,20 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("RoomId");
 
-                    b.ToTable("Room");
+                    b.HasIndex("RoomNumber")
+                        .IsUnique()
+                        .HasFilter("[RoomNumber] IS NOT NULL");
+
+                    b.ToTable("Rooms");
                 });
 
-            modelBuilder.Entity("Hotel.Data.RoomReservation", b =>
+            modelBuilder.Entity("Hotel.Data.Models.RoomReservation", b =>
                 {
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
@@ -153,32 +165,32 @@ namespace Data.Migrations
 
                     b.HasIndex("ReservationId");
 
-                    b.ToTable("RoomReservation");
+                    b.ToTable("RoomReservations");
                 });
 
-            modelBuilder.Entity("Hotel.Data.Maintenance", b =>
+            modelBuilder.Entity("Hotel.Data.Models.Maintenance", b =>
                 {
-                    b.HasOne("Hotel.Data.Room", null)
+                    b.HasOne("Hotel.Data.Models.Room", "Room")
                         .WithMany("Maintenances")
                         .HasForeignKey("RoomId");
                 });
 
-            modelBuilder.Entity("Hotel.Data.Reservation", b =>
+            modelBuilder.Entity("Hotel.Data.Models.Reservation", b =>
                 {
-                    b.HasOne("Hotel.Data.Guest", "Guest")
+                    b.HasOne("Hotel.Data.Models.Guest", "Guest")
                         .WithMany()
                         .HasForeignKey("GuestId");
                 });
 
-            modelBuilder.Entity("Hotel.Data.RoomReservation", b =>
+            modelBuilder.Entity("Hotel.Data.Models.RoomReservation", b =>
                 {
-                    b.HasOne("Hotel.Data.Reservation", "Reservation")
+                    b.HasOne("Hotel.Data.Models.Reservation", "Reservation")
                         .WithMany("RoomReservations")
                         .HasForeignKey("ReservationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Hotel.Data.Room", "Room")
+                    b.HasOne("Hotel.Data.Models.Room", "Room")
                         .WithMany("RoomReservations")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)

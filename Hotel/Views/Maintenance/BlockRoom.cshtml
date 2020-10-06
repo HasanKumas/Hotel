@@ -1,0 +1,46 @@
+﻿@model Hotel.Models.RoomDetailViewModel
+
+@{
+    ViewData["Title"] = "Block";
+}
+<div id="">
+    <h4>Block A Room</h4>
+</div>
+<h5>Step 1: Specify the period and number of room to block</h5>
+<hr />
+<div class="row">
+    <div class="card col-md-4" style="background-color:lightskyblue">
+        <form asp-action="Block">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label name="RoomNumber" class="control-label">Room Number</label>
+                <input name="RoomNumber" class="form-control" required/>
+                <span asp-validation-for="RoomNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label name="StartDate" class="control-label">Start Date</label>
+                <input name="StartDate" type="datetime" asp-format="{0:dd/MM/yyyy}" class="form-control" />
+                <span name="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label name="EndDate" class="control-label">End Date</label>
+                <input name="EndDate" asp-format="{0:dd/MM/yyyy}" class="form-control" />
+                <span asp-validation-for="Maintenances[0].EndDate" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <a asp-action="Block"><i class="fa fa-angle-double-left fa-3x" title="Back to List"></i></a>
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="submit" value="Block" class="btn btn-success" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

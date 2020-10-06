@@ -4,47 +4,39 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
 <div>
-    <h4>Room</h4>
+    <h4>Room Details</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.RoomNumber)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RoomNumber)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.RoomType)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RoomType)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.RoomSize)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RoomSize)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Price)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Price)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EntranceAvailableDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EntranceAvailableDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Reservations[0].ReservationId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Reservations[0].ReservationId)
         </dd>
     </dl>
 </div>
@@ -52,3 +44,99 @@
     <a asp-action="Edit" asp-route-id="@Model.RoomId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+<hr />
+<h4>Reservations of the Room</h4>
+<table id="reservationsTable" class="table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Reservations[0].ReservationId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reservations[0].CheckInDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reservations[0].CheckOutDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reservations[0].NumberOfGuests)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reservations[0].TotalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reservations[0].IsPaid)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Reservations)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReservationId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CheckInDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CheckOutDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfGuests)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsPaid)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-controller="Reservation" asp-route-id="@item.ReservationId"><i class="fa fa-info-circle" title="Details" style="color:darkslategrey;"></i></a> |
+                    <a asp-action="Delete" asp-controller="Reservation" asp-route-id="@item.ReservationId"><i class="fa fa-trash" title="Delete" style="color:red;"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+<h4>Maintenances</h4>
+<table id="maintenancesTable" class="table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Maintenances[0].MaintenanceId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Maintenances[0].StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Maintenances[0].EndDate)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Maintenances)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaintenanceId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                
+                <td>
+                    <a asp-action="Details" asp-controller="Maintenance" asp-route-id="@item.MaintenanceId"><i class="fa fa-info-circle" title="Details" style="color:darkslategrey;"></i></a> |
+                    <a asp-action="Delete" asp-controller="Maintenance" asp-route-id="@item.MaintenanceId"><i class="fa fa-trash" title="Delete" style="color:red;"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

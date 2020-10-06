@@ -1,15 +1,14 @@
 ﻿@model Hotel.Models.RoomDetailViewModel
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Delete Room";
 }
 
-<h1>Delete</h1>
+<h4>Delete Room</h4>
 
-<h3>Are you sure you want to delete this?</h3>
+<h5 style="color:red">Are you sure you want to delete this room?</h5>
 <div>
-    <h4>Room</h4>
-    <hr />
+     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RoomNumber)

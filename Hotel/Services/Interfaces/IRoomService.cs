@@ -15,5 +15,7 @@ namespace Hotel.Services.Interfaces
         Task<RoomDetailViewModel> GetRoom(int id);
         bool EditRoom(RoomDetailViewModel room);
         bool DeleteRoom(int id);
+        Task<IList<RoomDetailViewModel>> CanBlockedRoomsAsync(string roomNumber, DateTime startDate, DateTime endDate);
+        
     }
 }

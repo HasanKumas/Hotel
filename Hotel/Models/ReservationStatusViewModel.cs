@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace Hotel.Models
 {
-    public class AddRoomDTO
+    public enum ReservationStatusViewModel
     {
-        public int RoomId { get; set; }
-        public int ReservationId { get; set; }
+        Unsatisfied,
+        CheckedIn,
+        CheckedOut
     }
 }

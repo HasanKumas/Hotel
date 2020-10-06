@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    [Migration("20200923182713_init")]
-    partial class init
+    [Migration("20201001085130_initUpdate")]
+    partial class initUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -102,6 +102,10 @@ namespace Data.Migrations
                     b.Property<int>("NumberOfGuests")
                         .HasColumnType("int");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
@@ -126,7 +130,7 @@ namespace Data.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("RoomNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RoomSize")
                         .IsRequired()
@@ -136,7 +140,15 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("RoomId");
+
+                    b.HasIndex("RoomNumber")
+                        .IsUnique()
+                        .HasFilter("[RoomNumber] IS NOT NULL");
 
                     b.ToTable("Room");
                 });

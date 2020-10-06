@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    [Migration("20200924122758_datesformatupdated")]
-    partial class datesformatupdated
+    [Migration("20201001082137_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -93,13 +93,16 @@ namespace Data.Migrations
                     b.Property<DateTime>("CheckOutDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("GuestId")
+                    b.Property<int?>("GuestId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsPaid")
                         .HasColumnType("bit");
 
                     b.Property<int>("NumberOfGuests")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<double>("TotalPrice")
@@ -136,6 +139,9 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("RoomId");
 
                     b.ToTable("Room");
@@ -167,9 +173,7 @@ namespace Data.Migrations
                 {
                     b.HasOne("Hotel.Data.Guest", "Guest")
                         .WithMany()
-                        .HasForeignKey("GuestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GuestId");
                 });
 
             modelBuilder.Entity("Hotel.Data.RoomReservation", b =>

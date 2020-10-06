@@ -1,6 +1,6 @@
 ﻿namespace Hotel.Models
 {
-    public enum RoomSizeViewModel
+    public enum RoomSizeViewModel : int
     {
         One_Person=1,
         Two_Person=2,

@@ -37,7 +37,8 @@ namespace Data.Migrations
                     RoomType = table.Column<string>(nullable: false),
                     RoomSize = table.Column<string>(nullable: false),
                     Price = table.Column<double>(nullable: false),
-                    EntranceAvailableDate = table.Column<DateTime>(nullable: false)
+                    EntranceAvailableDate = table.Column<DateTime>(nullable: false),
+                    Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,6 +55,7 @@ namespace Data.Migrations
                     CheckOutDate = table.Column<DateTime>(nullable: false),
                     NumberOfGuests = table.Column<int>(nullable: false),
                     TotalPrice = table.Column<double>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
                     IsPaid = table.Column<bool>(nullable: false),
                     GuestId = table.Column<int>(nullable: true)
                 },

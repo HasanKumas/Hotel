@@ -4,12 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h4>Guest List</h4>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Register New Guest</a>
 </p>
-<table class="table">
+<table id="guestsTable" class="table-striped">
     <thead>
         <tr>
             <th>
@@ -36,48 +36,54 @@
             <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GuestId)
-            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Town)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Country)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GuestId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.GuestId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.GuestId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.GuestId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Town)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.GuestId"><i class="fa fa-edit" title="Edit" style="color:deepskyblue;"></i></a> |
+                    <a asp-action="Details" asp-route-id="@item.GuestId"><i class="fa fa-info-circle" title="Details" style="color:darkslategrey;"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.GuestId"><i class="fa fa-trash" title="Delete" style="color:red;"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@section scripts {
+    <script>
+    $(document).ready(() => {
+        if (@ViewBag.Succes == 1) {
+            $("#modalS").modal('show');
+        }
+    });
+    </script>
+
+}
+@Html.Partial("_Confirmation", new { bodyMessage = $"{@ViewBag.Message}"})

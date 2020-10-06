@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Hotel.Data.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,20 +17,36 @@ namespace Hotel.Data
         //Add a new Reservation
         public bool AddReservation(Reservation reservation)
         {
-            _context.Attach(reservation.Guest);
-            _context.Reservation.Add(reservation);
-            return _context.SaveChanges() == 1;
+            //Get Guest
+            var guest = _context.Guests.Find(reservation.Guest.GuestId);
+            reservation.Guest = guest;
+
+            //Get Room
+            var rooms = _context.Rooms.ToList().Where(room => reservation.RoomReservations.Any(rr => rr.RoomId == room.RoomId));
+            
+            for (int i =0; i < rooms.Count(); i++)
+            {
+                reservation.RoomReservations[i].Room = rooms.ElementAt(i);
+              
+            }
+            
+            _context.Reservations.Add(reservation);
+            return _context.SaveChanges() > 0;
         }
 
         //GET All Reservations list
         public async Task<IList<Reservation>> AllReservations()
         {
-            return await _context.Reservation.Include(res => res.Guest).Include(res => res.RoomReservations).ThenInclude(ress => ress.Room).ToListAsync();
+            return await _context.Reservations.Include(res => res.Guest).
+                                                Include(res => res.RoomReservations).
+                                                ThenInclude(ress => ress.Room).ToListAsync();
         }
         //GET Reservation Details
         public async Task<Reservation> GetReservation(int id)
         {
-            return await _context.Reservation.Include(m => m.RoomReservations).ThenInclude(mr => mr.Room).FirstOrDefaultAsync(m => m.ReservationId == id);
+            return await _context.Reservations.Include(m => m.RoomReservations).
+                                                ThenInclude(mr => mr.Room).
+                                                FirstOrDefaultAsync(m => m.ReservationId == id);
         }
         //POST Update Reservation
         public bool EditReservation(Reservation reservation)
@@ -36,7 +54,7 @@ namespace Hotel.Data
             try
             {
                 _context.Update(reservation);
-                return _context.SaveChanges() == 1;
+                return _context.SaveChanges() > 0;
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -52,14 +70,14 @@ namespace Hotel.Data
         }
         private bool ReservationExists(int id)
         {
-            return _context.Reservation.Any(e => e.ReservationId == id);
+            return _context.Reservations.Any(e => e.ReservationId == id);
         }
 
         public bool DeleteReservation(int id)
         {
-            var reservation = _context.Reservation.Find(id);
-            _context.Reservation.Remove(reservation);
-            return _context.SaveChanges() == 1;
+            var reservation = _context.Reservations.Find(id);
+            _context.Reservations.Remove(reservation);
+            return _context.SaveChanges() > 0;
         }
     }
 }

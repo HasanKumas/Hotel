@@ -1,0 +1,97 @@
+﻿@model Hotel.Models.ReservationDetailViewModel
+
+@{
+    ViewData["Title"] = "Available Rooms";
+}
+<h4>Make A Reservation</h4>
+<h5>Step 2: Select the room(s) and fill in the guest last name for registration check</h5>
+<h5 style="color:red">@ViewBag.Message </h5>
+
+
+<form asp-action="CheckGuest" asp-controller="reservation">
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CheckInDate)
+        </dt>
+        <dd class="col-sm-10">
+            : @Html.DisplayFor(model => model.CheckInDate)
+            <input type="hidden" asp-for="CheckInDate" class="form-control" value="@Model.CheckInDate" />
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CheckOutDate)
+        </dt>
+        <dd class="col-sm-10">
+           : @Html.DisplayFor(model => model.CheckOutDate)
+            <input type="hidden" asp-for="CheckOutDate" class="form-control" value="@Model.CheckOutDate" />
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NumberOfGuests)
+        </dt>
+        <dd class="col-sm-10">
+           : @Html.DisplayFor(model => model.NumberOfGuests)
+            <input type="hidden" asp-for="NumberOfGuests" class="form-control" value="@Model.NumberOfGuests" />
+        </dd>
+    </dl>
+        
+        @*<div class="form-group col-md-4">
+            <label asp-for="NumberOfGuests" class="control-label"></label>
+            <input asp-for="NumberOfGuests" class="form-control" value="@Model.NumberOfGuests" disabled/>
+        </div>*@
+        <div class="form-group col-md-4">
+            <label asp-for="Guest.LastName" class="control-label">Last Name</label>
+            <input asp-for="Guest.LastName" class="form-control" required/>
+            <span asp-validation-for="Guest.LastName" class="text-danger"></span>
+        </div>
+        <table id="roomTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Rooms[0].RoomNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Rooms[0].RoomType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Rooms[0].RoomSize)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Rooms[0].Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Rooms[0].EntranceAvailableDate)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Rooms)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RoomNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RoomType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RoomSize)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EntranceAvailableDate)
+                        </td>
+                        <td>
+                            <input type="checkbox" id="cbox" name="selectedRoomIDs" value="@item.RoomId">
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="form-group">
+            <a asp-action="Index">Cancel</a>
+            <input type="submit" value="Check Guest" class="btn btn-primary" />
+
+        </div>
+</form>

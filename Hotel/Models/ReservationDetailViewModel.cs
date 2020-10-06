@@ -7,6 +7,10 @@ namespace Hotel.Models
 {
     public class ReservationDetailViewModel : ReservationViewModel
     {
-        public List<RoomViewModel> Rooms { get; set; }
+        public ReservationDetailViewModel()
+        {
+            Rooms = new List<RoomDetailViewModel>();
+        }
+        public List<RoomDetailViewModel> Rooms { get; set; }
     }
 }

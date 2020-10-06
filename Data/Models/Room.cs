@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Hotel.Data
+namespace Hotel.Data.Models
 {
     public class Room
     {
         public Room()
         {
             RoomReservations = new List<RoomReservation>();
+            Maintenances = new List<Maintenance>();
         }
         public int RoomId { get; set; }
         public string RoomNumber { get; set; }
@@ -16,10 +17,9 @@ namespace Hotel.Data
         public RoomSize RoomSize { get; set; }
         public double Price { get; set; }
 
-        [Display(Name = "Available Date")]
-        [DisplayFormat(DataFormatString = "{dd-MM-yyyy}")]
         [DataType(DataType.Date)]
         public DateTime EntranceAvailableDate { get; set; }
+        public RoomStatus Status { get; set; }
         public List<RoomReservation> RoomReservations { get; set; }
         public List<Maintenance> Maintenances { get; set; }
     }

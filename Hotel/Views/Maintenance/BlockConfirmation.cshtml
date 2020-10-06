@@ -1,14 +1,11 @@
 ﻿@model IEnumerable<Hotel.Models.RoomDetailViewModel>
 
 @{
-    ViewData["Title"] = "Select Room";
-}
-<h1>Index</h1>
+    ViewData["Title"] = "Confirmed Blocking Room";
 
-<p>
-    <a asp-action="Create">Create New</a>
-    <button type="button" class="btn btn-primary" id="buttonS">Show</button>
-</p>
+}
+<h4>Confirmed Blocking Room</h4>
+<h5 style="color:red">@ViewBag.Message</h5>
 <table id="roomTable" class="table table-striped">
     <thead>
         <tr>
@@ -50,14 +47,14 @@
                     @Html.DisplayFor(modelItem => item.EntranceAvailableDate)
                 </td>
                 <td>
-                    
-                    <input type="checkbox" id="cbox" name="room" value="@item.RoomId">
+                    <a asp-action="BlockAlternate" asp-route-id="@item.RoomId" asp-route-StartDate="@ViewBag.StartDate"
+                       asp-route-EndDate="@ViewBag.EndDate" ><i class="fa fa-window-close" title="Block" style="color:red;"></i></a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<form>
-    <a asp-action="Complete" asp-controller="reservation">Complete reservation</a>
-    <input type="text" id="inputSelectedRooms" />
-</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -10,9 +10,10 @@ namespace Hotel.Services.Interfaces
     {
         Task<IList<GuestViewModel>> AllGuests();
 
-        bool AddGuest(GuestViewModel guest);
+        int AddGuest(GuestViewModel guest);
 
         Task<GuestViewModel> GetGuest(int id);
+        Task<GuestViewModel> GetGuestByName(string lastName);
         bool EditGuest(GuestViewModel guest);
         bool DeleteGuest(int id);
     }
